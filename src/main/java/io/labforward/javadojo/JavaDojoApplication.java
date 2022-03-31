@@ -1,8 +1,9 @@
 package io.labforward.javadojo;
 
 public class JavaDojoApplication {
-
+	static Object ob = null;
 	static String welcome(){
-		return "Welcome " + System.getProperty("user.name");
+
+		return "Welcome to Dojo" ;
 	}
 }

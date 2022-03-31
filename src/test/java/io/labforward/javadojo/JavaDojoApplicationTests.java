@@ -1,6 +1,7 @@
 package io.labforward.javadojo;
 
 import static org.assertj.core.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 
 class JavaDojoApplicationTests {
@@ -9,6 +10,6 @@ class JavaDojoApplicationTests {
 	void shouldWelcomeUser() {
 		String welcomeMessage = JavaDojoApplication.welcome();
 
-		assertThat(welcomeMessage).isEqualTo("Welcome goff");
+		assertThat(welcomeMessage).isEqualTo("Welcome to Dojo");
 	}
 }
