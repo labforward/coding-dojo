@@ -1,13 +1,14 @@
 package io.labforward.javadojo;
 
+import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
 class JavaDojoApplicationTests {
 
 	@Test
-	void contextLoads() {
-	}
+	void shouldWelcomeUser() {
+		String welcomeMessage = JavaDojoApplication.welcome();
 
+		assertThat(welcomeMessage).isEqualTo("Welcome goff");
+	}
 }
