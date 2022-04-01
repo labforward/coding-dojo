@@ -13,10 +13,6 @@ class Jokenpo {
 
 	}
 
-	public void addPlayer() {
-
-	}
-
 	String evaluate(String playerInput1, String playerInput2) {
 		if (playerInput1.equals(playerInput2))
 			return DRAW;
