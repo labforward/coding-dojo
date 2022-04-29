@@ -1,24 +1,27 @@
 package io.labforward.javadojo;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import org.assertj.core.api.Assertions;
+import io.labforward.javadojo.UserDto.UserDtoBuilder;
 import org.junit.jupiter.api.Test;
 
-import io.labforward.javadojo.UserDto.UserDtoBuilder;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Rules:
  * No mock framework
  * Focus on the rules, not the integrations
- * 
+ *
  * ======= User Registration ==========
  * We should register new Users. Users can not be updated;
  * The user shall provide non-empty values for: Name, email, and password;
  * The password must have at least 6 characters;
  * Multiple users can have the same Name, but the email must be unique.
- * 
- * Visualize who is in the round as navigator and
+ *
+ * ======= User Confirmation ==========
+ * The system shall send a confirmation email for the new user’s email;
+ * The user shall confirm his account by informing his email and password;
+ * Unconfirmed users shall receive the confirmation email everyday at 9am.
+ *
  */
 class JavaDojoApplicationTests {
 	/**
@@ -49,7 +52,7 @@ class JavaDojoApplicationTests {
 		// when
 		UserRegistration registration = new UserRegistration(nullName);
 		// then
-		Assertions.assertThatThrownBy(() -> registration.process()).hasMessage("Name is missing");
+		assertThatThrownBy(registration::process).hasMessage("Name is missing");
 	}
 
 	@Test
@@ -58,9 +61,8 @@ class JavaDojoApplicationTests {
 		UserDto nullEmail = createDefaultUserDynamicSample().email(null).build();
 		// when
 		UserRegistration registration = new UserRegistration(nullEmail);
-
 		// then
-		Assertions.assertThatThrownBy(() -> registration.process()).hasMessage("Email is missing");
+		assertThatThrownBy(registration::process).hasMessage("Email is missing");
 	}
 
 	@Test
@@ -70,7 +72,7 @@ class JavaDojoApplicationTests {
 		// when
 		UserRegistration registration = new UserRegistration(nullPassword);
 		// then
-		Assertions.assertThatThrownBy(() -> registration.process()).hasMessage("Password is missing");
+		assertThatThrownBy(registration::process).hasMessage("Password is missing");
 	}
 
 	@Test
@@ -80,7 +82,7 @@ class JavaDojoApplicationTests {
 		// when
 		UserRegistration registration = new UserRegistration(shortPassword);
 		// then
-		Assertions.assertThatThrownBy(() -> registration.process()).hasMessage("Password is too short");
+		assertThatThrownBy(registration::process).hasMessage("Password is too short");
 	}
 
 }
