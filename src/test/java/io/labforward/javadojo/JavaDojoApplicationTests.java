@@ -1,10 +1,8 @@
 package io.labforward.javadojo;
 
-import io.labforward.javadojo.UserDto.UserDtoBuilder;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Rules:
@@ -24,65 +22,54 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  */
 class JavaDojoApplicationTests {
-	/**
-	 * 
-	 * Dynamic sample example.
-	 * We can use it in all tests. It will provide valid default values.
-	 * Each test can focus and replace only the field being tested.
-	 */
-	private UserDtoBuilder createDefaultUserDynamicSample() {
-		return UserDto.builder().email("example@user.com").name("John Doe").password("password123");
+
+	@Test
+	void shouldFailNullUsername()  {
+		User user = new User();
+    user.setUsername(null);
+    UserRegistration userRegistration = new UserRegistration();
+    Boolean result = userRegistration.register(user);
+    assertThat(result).isFalse();
 	}
 
 	@Test
-	void shouldAllowUserToRegisterNewAccount() throws Exception {
-		// given
-		UserDto completeUser = createDefaultUserDynamicSample().build();
-		// when
-		UserRegistration registration = new UserRegistration(completeUser);
-		// then
-		User user = new User("John Doe", "example@user.com", "password123");
-		assertEquals(user, registration.process());
+	void shouldAcceptNonNullUsername()  {
+		User user = new User();
+    user.setUsername("user");
+    user.setEmail("email@user.com");
+    UserRegistration userRegistration = new UserRegistration();
+    Boolean result = userRegistration.register(user);
+    assertThat(result).isTrue();
+	}
+
+
+	@Test
+	void shouldAcceptNonNullEmail()  {
+		User user = new User();
+		user.setUsername("Name");
+        user.setEmail("user@user.com");
+        UserRegistration userRegistration = new UserRegistration();
+        Boolean result = userRegistration.register(user);
+        assertThat(result).isTrue();
 	}
 
 	@Test
-	void shouldValidatePresenceOfUserName() {
-		// given
-		UserDto nullName = createDefaultUserDynamicSample().name(null).build();
-		// when
-		UserRegistration registration = new UserRegistration(nullName);
-		// then
-		assertThatThrownBy(registration::process).hasMessage("Name is missing");
+	void shouldFailNullPassword()  {
+		User user = new User();
+    user.setPassword(null);
+    UserRegistration userRegistration = new UserRegistration();
+    Boolean result = userRegistration.register(user);
+    assertThat(result).isFalse();
 	}
 
 	@Test
-	void shouldValidatePresenceOfUserEmail() {
-		// given
-		UserDto nullEmail = createDefaultUserDynamicSample().email(null).build();
-		// when
-		UserRegistration registration = new UserRegistration(nullEmail);
-		// then
-		assertThatThrownBy(registration::process).hasMessage("Email is missing");
+	void shouldAcceptNonNullPassword()  {
+		User user = new User();
+		user.setUsername("username");
+		user.setEmail("email@email.com");
+    user.setPassword("password");
+    UserRegistration userRegistration = new UserRegistration();
+    Boolean result = userRegistration.register(user);
+    assertThat(result).isTrue();
 	}
-
-	@Test
-	void shouldValidatePresenceOfUserPassword() {
-		// given
-		UserDto nullPassword = createDefaultUserDynamicSample().password(null).build();
-		// when
-		UserRegistration registration = new UserRegistration(nullPassword);
-		// then
-		assertThatThrownBy(registration::process).hasMessage("Password is missing");
-	}
-
-	@Test
-	void shouldValidateLengthOfUserPassword() {
-		// given
-		UserDto shortPassword = createDefaultUserDynamicSample().password("short").build();
-		// when
-		UserRegistration registration = new UserRegistration(shortPassword);
-		// then
-		assertThatThrownBy(registration::process).hasMessage("Password is too short");
-	}
-
 }
