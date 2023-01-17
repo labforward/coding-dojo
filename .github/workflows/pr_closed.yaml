@@ -1,14 +1,22 @@
 
 on:
-  pull_request:
-    types: [closed]
+  push:
 
 jobs:
-  check:
+  tag_release:
+    name: Tagging
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/release-test'
     steps:
-      - name: Test-refs
-        shell: bash
-        run: | 
-          echo "GH SHA: ${GITHUB_SHA}"
-          echo "ref: ${GITHUB_REF}"
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: '10'
+          
+      - name: Create Tag 
+        env:
+          GH_PAT: ${{secrets.GH_PAT}}
+          REPO: coding-dojo
+        run: |
+          chmod a+x .github/scripts/tag-and-release.sh
+          .github/scripts/tag-and-release.sh
