@@ -7,6 +7,8 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - run: | 
-        echo "GH SHA: $GITHUB_SHA"
-        echo "ref: ${GITHUB_REF}"
+      - name: Test-refs
+        shell: bash
+        run: | 
+          echo "GH SHA: ${GITHUB_SHA}"
+          echo "ref: ${GITHUB_REF}"
